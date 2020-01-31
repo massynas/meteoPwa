@@ -6,11 +6,23 @@
           <div class="hero--temp">
             <span v-round="weather.main.temp"></span>°
           </div>
+          <div class="hero--description">
+            <p>
+              <i v-if="weather.sys.pod == 'd'" :class="'wi wi-owm-day-' + weather.weather[0].id"></i>
+              <i v-if="weather.sys.pod == 'n'" :class="'wi wi-owm-night-' + weather.weather[0].id"></i>
+              {{weather.weather[0].description}}
+            </p>
+            <p><i class="wi wi-strong-wind"></i> {{weather.wind.speed}} m/s</p>
+            <p><i class="wi wi-humidity"></i><span> {{weather.main.humidity}}%</span></p>
+          </div>
         </v-flex>
         <v-flex xs4>
         </v-flex>
       </v-layout>
     </header>
+      <section class="weatherSum">
+      <Previsions v-if="typeOfView == 'list'" :data="previsionsByDays"></Previsions>
+    </section>
   </section>
 </template>
 
@@ -18,11 +30,19 @@
 import weather from '@/stores/weather.js'
 import { mapGetters } from 'vuex'
 import myDirectives from '@/directives/MyDirectives.js'
+import Previsions from '@/components/Previsions'
+
 
 export default {
   name: 'HelloWorld',
   store: weather,
   directives: myDirectives,
+  components:{Previsions},
+  data () {
+    return {
+        typeOfView: "list"
+    }
+  },
   methods:{
     getFlickImg(){
       // 'https://farm' + flickr.farm + '.staticflickr.com/' + flickr.server + '/' + flickr.id + '_' + flickr.secret + '.jpg'
@@ -35,7 +55,9 @@ export default {
     ...mapGetters([
       'weather',
       'location',
-      'flickr'
+      'flickr',
+      'previsions',
+       'previsionsByDays',
     ])
   }
 }
