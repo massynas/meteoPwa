@@ -20,7 +20,45 @@
         </v-flex>
       </v-layout>
     </header>
-      <section class="weatherSum">
+       <section class="weatherSum">
+      <v-btn
+              absolute
+              dark
+              fab
+              top
+              right
+              color="pink"
+            @click="changeTypeOfView">
+              <v-icon v-if="typeOfView == 'list'">show_chart</v-icon>
+              <v-icon v-else >format_list_bulleted</v-icon>
+        </v-btn>
+      <PrevisionsCharts style="margin-bottom:25px"
+        v-if="typeOfView == 'charts'"
+        :data="previsionsByDays"
+        :options="{
+            legend: {
+               labels: {
+                    fontColor: '#000'
+                   }
+            },
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                        fontColor: '#000'
+                    },
+                }],
+              xAxes: [{
+                    ticks: {
+                        fontColor: '#000'
+                    },
+                }]
+            }
+          }"
+        :width="400"
+        :height="300"></PrevisionsCharts>
       <Previsions v-if="typeOfView == 'list'" :data="previsionsByDays"></Previsions>
     </section>
   </section>
@@ -31,13 +69,14 @@ import weather from '@/stores/weather.js'
 import { mapGetters } from 'vuex'
 import myDirectives from '@/directives/MyDirectives.js'
 import Previsions from '@/components/Previsions'
+import PrevisionsCharts from '@/components/PrevisionsCharts'
 
 
 export default {
   name: 'HelloWorld',
   store: weather,
   directives: myDirectives,
-  components:{Previsions},
+  components:{Previsions, PrevisionsCharts},
   data () {
     return {
         typeOfView: "list"
@@ -49,7 +88,13 @@ export default {
       let img = 'https://farm' + this.flickr.farm + '.staticflickr.com/' + this.flickr.server + '/' + this.flickr.id + '_' + this.flickr.secret + '.jpg';
       return img;
     },
-  
+   changeTypeOfView(){
+      if(this.typeOfView == 'list'){
+        this.typeOfView = 'charts';
+      }else{
+        this.typeOfView = 'list';
+      }
+    }
   },
   computed:{
     ...mapGetters([

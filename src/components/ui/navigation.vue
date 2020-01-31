@@ -5,7 +5,8 @@
         <v-icon>folder</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
-        <v-list-tile-title><a href="massynas" target="_blank">GITHUB REPO</a></v-list-tile-title>
+        <v-list-tile-title><a href="https://github.com/massynas/meteoPwa
+" target="_blank">GITHUB REPO</a></v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
    
