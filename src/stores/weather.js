@@ -24,7 +24,24 @@ export default new Vuex.Store({
         weather: state => {
             return state.weather;
         },
-   
+        previsions: state =>{
+            return state.previsions;
+        },
+        previsionsByDays: state =>{
+            let temp = [];
+            state.previsions.forEach((value, i) => {
+              let date1 = new Date(value.dt_txt).getDate();
+              if(state.previsions[i-1] != undefined){
+                let date2 = new Date(state.previsions[i-1].dt_txt).getDate();
+                if(date2 != undefined){
+                  if(date1 != date2)
+                      temp.push(value);
+                }
+              }
+            });
+            return temp;
+
+        },
         location: state =>{
             return state.location;
         },
